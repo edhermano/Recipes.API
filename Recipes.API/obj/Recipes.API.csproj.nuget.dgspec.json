@@ -66,14 +66,6 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
-            "Moq": {
-              "target": "Package",
-              "version": "[4.20.70, )"
-            },
-            "NUnit": {
-              "target": "Package",
-              "version": "[4.1.0, )"
-            },
             "Serilog.AspNetCore": {
               "target": "Package",
               "version": "[8.0.1, )"

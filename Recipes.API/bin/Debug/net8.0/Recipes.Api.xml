@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Recipes.API</name>
+    </assembly>
+    <members>
+        <member name="T:Recipes.API.Controllers.IngredientsController">
+            <summary>
+            API to get, add, update, and delete ingredients from recipes.
+            </summary>
+        </member>
+        <member name="M:Recipes.API.Controllers.IngredientsController.GetIngredients(System.Int32)">
+            <summary>
+            Get a recipes ingredients
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <returns>List of IngredientDtos</returns>
+            <response code="200">Returns requested recipes ingredients</response>
+            <response code="404">Requested recipe was not found</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.IngredientsController.GetIngredient(System.Int32,System.Int32)">
+            <summary>
+            Get specific ingredient for a recipe
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <param name="ingredientId">Id of ingredient</param>
+            <returns>IngredientDto</returns>
+            <response code="200">Returns requested recipes specific ingredient</response>
+            <response code="404">Requested recipe or ingredient was not found</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.IngredientsController.AddIngredient(System.Int32,Recipes.API.Models.IngredientForCreationDto)">
+            <summary>
+            Add an ingredient to a recipe
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <param name="ingredient">IngredientForCreationDto to be added</param>
+            <returns>IngredientDto of added ingredient</returns>
+            <response code="201">Ingredient succssfully added</response>
+            <response code="404">Requested recipe was not found</response>
+            <response code="400">Missing required field</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.IngredientsController.UpdateIngredient(System.Int32,System.Int32,Recipes.API.Models.IngredientForUpdateDto)">
+            <summary>
+            Update an ingredient for a recipe
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <param name="ingredientId">Id of ingredient</param>
+            <param name="ingredientUpdate">IngredientForUpdateDto to be updated</param>
+            <returns>No content</returns>
+            <response code="204">Ingredient succssfully updated</response>
+            <response code="404">Requested recipe or ingredient was not found</response>
+            <response code="400">Missing required field</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.IngredientsController.DeleteIngredient(System.Int32,System.Int32)">
+            <summary>
+            Delete a recipes ingredient
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <param name="ingredientId">Id of ingredient</param>
+            <returns>No content</returns>
+            <response code="204">Ingredient succssfully updated</response>
+            <response code="404">Requested recipe or ingredient was not found</response>
+        </member>
+        <member name="T:Recipes.API.Controllers.RecipesController">
+            <summary>
+            API to get, create, update, and delete recipes from a cookbook.
+            </summary>
+        </member>
+        <member name="M:Recipes.API.Controllers.RecipesController.GetRecipes">
+            <summary>
+            Get a list of all recipes
+            </summary>
+            <returns>List of RecipeWithoutIngredientsDtos</returns>
+            <response code="200">Returns list of recipes</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.RecipesController.GetRecipe(System.Int32,System.Boolean)">
+            <summary>
+            Get requested recipe
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <param name="includeIngredients">Whether to include recipes ingredients</param>
+            <returns>Requested recipe with or without ingredient list</returns>
+            <response code="200">Returns requested recipe</response>
+            <response code="404">Requested recipe was not found</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.RecipesController.AddRecipe(Recipes.API.Models.RecipeForCreationDto)">
+            <summary>
+            Add a recipe to the cookbook
+            </summary>
+            <param name="recipe">RecipeForCreationDto to be added</param>
+            <returns>Added RecipeDto</returns>
+            <response code="201">Recipe successfully added</response>
+            <response code="400">Missing required fields</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.RecipesController.UpdateRecipe(System.Int32,Recipes.API.Models.RecipeForUpdateDto)">
+            <summary>
+            Update an existing recipe
+            </summary>
+            <param name="recipeId">Id of the recipe</param>
+            <param name="recipe">RecipeForUpdateDto to be updated</param>
+            <returns>No content</returns>
+            <response code="204">Recipe successfully updated</response>
+            <response code="400">Missing required fields</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.RecipesController.UpdateRecipe(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{Recipes.API.Models.RecipeForUpdateDto})">
+            <summary>
+            Partially update an existing recipe
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <param name="patchDocument">JSON patch command</param>
+            <returns>No content.</returns>
+            <response code="204">Recipe successfully updated</response>
+            <response code="400">Missing required fields</response>
+        </member>
+        <member name="M:Recipes.API.Controllers.RecipesController.DeleteRecipe(System.Int32)">
+            <summary>
+            Delete a recipe from cookbook
+            </summary>
+            <param name="recipeId">Id of recipe</param>
+            <returns>No content</returns>
+            <response code="204">Recipe successfully deleted</response>
+            <response code="404">Recipe not found</response>
+        </member>
+        <member name="T:Recipes.API.Migrations.InitialCreateAndSeed">
+            <inheritdoc />
+        </member>
+        <member name="M:Recipes.API.Migrations.InitialCreateAndSeed.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Recipes.API.Migrations.InitialCreateAndSeed.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Recipes.API.Migrations.InitialCreateAndSeed.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

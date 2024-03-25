@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.API.Models;
@@ -6,8 +7,12 @@ using Recipes.API.Services;
 
 namespace Recipes.API.Controllers
 {
+    /// <summary>
+    /// API to get, create, update, and delete recipes from a cookbook.
+    /// </summary>
     [ApiController]
-    [Route("recipes")]
+    [ApiVersion("1.0")]
+    [Route("v{version:apiVersion}/recipes")]
     public class RecipesController : ControllerBase
     {
         private readonly IRecipeService recipeService;
@@ -26,18 +31,29 @@ namespace Recipes.API.Controllers
                 throw new ArgumentNullException(nameof(mapper));
         }
 
+        /// <summary>
+        /// Get a list of all recipes
+        /// </summary>
+        /// <returns>List of RecipeWithoutIngredientsDtos</returns>
+        /// <response code="200">Returns list of recipes</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<RecipeDto>>> GetRecipes()
+        public async Task<ActionResult<IEnumerable<RecipeWithoutIngredientsDto>>> GetRecipes()
         {
                 return Ok(await recipeService.GetRecipesAsync());
         }
 
+        /// <summary>
+        /// Get requested recipe
+        /// </summary>
+        /// <param name="recipeId">Id of recipe</param>
+        /// <param name="includeIngredients">Whether to include recipes ingredients</param>
+        /// <returns>Requested recipe with or without ingredient list</returns>
+        /// <response code="200">Returns requested recipe</response>
+        /// <response code="404">Requested recipe was not found</response>
         [HttpGet("{recipeId}", Name = "GetRecipe")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetRecipe(int recipeId,
             bool includeIngredients = false)
         {
@@ -57,6 +73,13 @@ namespace Recipes.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a recipe to the cookbook
+        /// </summary>
+        /// <param name="recipe">RecipeForCreationDto to be added</param>
+        /// <returns>Added RecipeDto</returns>
+        /// <response code="201">Recipe successfully added</response>
+        /// <response code="400">Missing required fields</response>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -72,9 +95,16 @@ namespace Recipes.API.Controllers
                 newRecipe);
         }
 
+        /// <summary>
+        /// Update an existing recipe
+        /// </summary>
+        /// <param name="recipeId">Id of the recipe</param>
+        /// <param name="recipe">RecipeForUpdateDto to be updated</param>
+        /// <returns>No content</returns>
+        /// <response code="204">Recipe successfully updated</response>
+        /// <response code="400">Missing required fields</response>
         [HttpPut("{recipeId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateRecipe(int recipeId,
             RecipeForUpdateDto recipe)
@@ -90,9 +120,16 @@ namespace Recipes.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Partially update an existing recipe
+        /// </summary>
+        /// <param name="recipeId">Id of recipe</param>
+        /// <param name="patchDocument">JSON patch command</param>
+        /// <returns>No content.</returns>
+        /// <response code="204">Recipe successfully updated</response>
+        /// <response code="400">Missing required fields</response>
         [HttpPatch("{recipeId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> UpdateRecipe(int recipeId,
             JsonPatchDocument<RecipeForUpdateDto> patchDocument)
@@ -123,10 +160,16 @@ namespace Recipes.API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete a recipe from cookbook
+        /// </summary>
+        /// <param name="recipeId">Id of recipe</param>
+        /// <returns>No content</returns>
+        /// <response code="204">Recipe successfully deleted</response>
+        /// <response code="404">Recipe not found</response>
         [HttpDelete("{recipeId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteRecipe(int recipeId)
         {
             if (!await recipeService.RecipeExistsAsync(recipeId))

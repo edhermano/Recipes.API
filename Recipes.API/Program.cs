@@ -4,6 +4,8 @@ using Recipes.API.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Recipes.API.Data;
 using Recipes.API.Services;
+using System.Reflection;
+using Asp.Versioning;
 
 
 Log.Logger = new LoggerConfiguration()
@@ -30,7 +32,22 @@ builder.Services.AddProblemDetails();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(setupAction =>
+{
+    var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+    setupAction.IncludeXmlComments(xmlCommentsFullPath);
+});
+
+builder.Services.AddApiVersioning(setupAction =>
+{
+    setupAction.ReportApiVersions = true;
+    setupAction.AssumeDefaultVersionWhenUnspecified = true;
+    setupAction.DefaultApiVersion = new ApiVersion(1, 0);
+}).AddMvc();
+
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 
 builder.Services.AddDbContext<RecipeInfoContext>(dbContextOptions =>
@@ -40,8 +57,9 @@ builder.Services.AddDbContext<RecipeInfoContext>(dbContextOptions =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IRecipeInfoRepository, RecipeInfoRepository>();
-builder.Services.AddTransient<IRecipeService,  RecipeService>();
+builder.Services.AddTransient<IRecipeService, RecipeService>();
 builder.Services.AddTransient<IIngredientService, IngredientService>();
+
 
 var app = builder.Build();
 
@@ -50,7 +68,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler();
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

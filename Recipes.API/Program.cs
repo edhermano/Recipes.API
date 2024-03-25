@@ -6,6 +6,8 @@ using Recipes.API.Data;
 using Recipes.API.Services;
 using System.Reflection;
 using Asp.Versioning;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 Log.Logger = new LoggerConfiguration()
@@ -48,6 +50,22 @@ builder.Services.AddApiVersioning(setupAction =>
     setupAction.DefaultApiVersion = new ApiVersion(1, 0);
 }).AddMvc();
 
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Authentication:Issuer"],
+            ValidAudience = builder.Configuration["Authentication:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(builder.Configuration["Authentication:SecretForKey"]))
+        };
+    }
+    );
+
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 
 builder.Services.AddDbContext<RecipeInfoContext>(dbContextOptions =>
@@ -77,6 +95,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

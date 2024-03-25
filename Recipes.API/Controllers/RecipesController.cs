@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.API.Models;
@@ -11,6 +12,7 @@ namespace Recipes.API.Controllers
     /// API to get, create, update, and delete recipes from a cookbook.
     /// </summary>
     [ApiController]
+    [Authorize]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/recipes")]
     public class RecipesController : ControllerBase

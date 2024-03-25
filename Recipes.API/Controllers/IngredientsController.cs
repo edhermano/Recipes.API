@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recipes.API.Models;
 using Recipes.API.Services;
@@ -9,6 +10,7 @@ namespace Recipes.API.Controllers
     /// API to get, add, update, and delete ingredients from recipes.
     /// </summary>
     [ApiController]
+    [Authorize]
     [ApiVersion("1.0")]
     [Route("v{version:apiVersion}/recipes/{recipeId}/ingredients")]
     public class IngredientsController : ControllerBase

@@ -1,0 +1,340 @@
+{
+	"info": {
+		"_postman_id": "5a4d8a8d-9c88-47e6-bed7-772c56c6adcd",
+		"name": "Recipes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33439070"
+	},
+	"item": [
+		{
+			"name": "Get Recipes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Recipe",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/4?includeIngredients=true",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"4"
+					],
+					"query": [
+						{
+							"key": "includeIngredients",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ingredients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/1/ingredients",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"1",
+						"ingredients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Ingredient",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content",
+						"value": "app",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Bread Crumbs\",\r\n        \"qty\": 1,\r\n        \"measurement\": \"cups\"\r\n    }\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/v1/recipes/1/ingredients",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"v1",
+						"recipes",
+						"1",
+						"ingredients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Recipe",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Omelete\",\r\n        \"directions\": \"Crack cook fill serve\",\r\n        \"difficulty\": \"Easy\",\r\n        \"rating\": 4,\r\n        \"ingredients\":\r\n        [\r\n            {\r\n                \"name\": \"eggs\",\r\n                \"qty\": 3\r\n            },\r\n            {\r\n                \"name\": \"Cheese\",\r\n                \"qty\": 4,\r\n                \"measurement\": \"oz\"\r\n            }\r\n        ]\r\n    \r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Recipe",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/5",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Recipe",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"name\": \"Cajun Meatloaf\",\r\n        \"directions\": \"Mix bake serve\",\r\n        \"difficulty\": \"Medium\",\r\n        \"rating\": 5\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/1",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Recipe",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n        \"op\": \"replace\",\r\n        \"path\": \"/name\",\r\n        \"value\": \"Stuffed Crust Pizza\"\r\n    }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/6",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Ingredient",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/1/ingredients/1",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"1",
+						"ingredients",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Ingredient",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Cheese\",\r\n    \"qty\": 8,\r\n    \"measurement\": \"oz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/4/ingredients/",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"4",
+						"ingredients",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Ingredient",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Chips\",\r\n    \"qty\": 1,\r\n    \"measurement\": \"bag\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/4/ingredients/12",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"4",
+						"ingredients",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Ingredient",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}{{portNum}}/recipes/5/ingredients/15",
+					"host": [
+						"{{baseUrl}}{{portNum}}"
+					],
+					"path": [
+						"recipes",
+						"5",
+						"ingredients",
+						"15"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
